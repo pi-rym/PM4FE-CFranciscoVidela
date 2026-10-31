@@ -5,6 +5,7 @@ import {Footer} from "@/components/Footer/Footer"
 import { Navbar } from "@/components/Navbar/Navbar";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
+import { SearchProvider } from "@/context/SearchContextType";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,8 +31,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <AuthProvider>
           <CartProvider>
+            <SearchProvider>     
 
         <Navbar/>{children}<Footer/>
+        
+            </SearchProvider>
           </CartProvider>
         </AuthProvider>
         </body>

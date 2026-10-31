@@ -1,7 +1,9 @@
 "use client"
 import { ChangeEvent, useState } from "react"
+import { useRouter } from "next/navigation";
 
 export default function RegisterForm () {
+    const router = useRouter();
 
     const inputStyles = "rounded-md border p-2";
     const labelStyles = "mb-1 block font-medium text-white";
@@ -27,9 +29,14 @@ export default function RegisterForm () {
 
     const handlerOnSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email);
+                if (!emailValido) {
+                alert("Por favor, ingresá un email válido");
+                return;
+            }
 
         if(!form.email || !form.password || !form.name || !form.address || !form.phone) {
-            console.log("falta completar un campo")
+            alert("falta completar un campo")  //implementar react toastify o sweetalert2
             return;
         } else {
             const response =await fetch("http://localhost:3000/users/register", {
@@ -41,6 +48,7 @@ export default function RegisterForm () {
             });
             if(response.ok) {
                 setMessage("Registro Exitoso");
+                router.push("/login")
             } else {
                 setMessage("No se pudo registrar el usuario")
             }
@@ -52,7 +60,7 @@ export default function RegisterForm () {
 
     return (
         <main className="flex min-h-screen items-center justify-center">
-        <form onSubmit={handlerOnSubmit}
+        <form noValidate onSubmit={handlerOnSubmit}
         className="w-full max-w-md rounded-lg border border-purple-500/30 bg-purple-950/40 p-6 shadow-lg">
             <div className="flex flex-col gap-4">
 

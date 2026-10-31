@@ -1,22 +1,29 @@
 "use client"
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import { SearchContext } from "@/context/SearchContextType";
 
 export const Navbar = () => {
-
+  
+  const searchContext = useContext(SearchContext);  
   const context = useContext(AuthContext);
   const router = useRouter();
    if(context === null) {
     return null;
    }
+   if(searchContext === null){
+    return null;
+   }
    const {isLogin, setIsLogin} = context;
+   const {buscar, setBuscar} = searchContext;
 
    const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLogin(false)
     router.push("/home")
+
    }
 
     return (
@@ -29,17 +36,23 @@ export const Navbar = () => {
             <>
             <Link href="/cart">Carrito</Link>
             <Link href="/dashboard">dashboard</Link> 
-            <button onClick={handleLogout}>
+            <button onClick={handleLogout}
+            className="cursor-pointer">
                 Cerrar sesion
-            </button>
+            </button>            
+            
             </>
         ) : (
         <> <Link href="/login" className="transition-colors hover:text-purple-500">Entrar</Link>
         <Link href="/register" className="transition-colors hover:text-purple-500">Registar</Link>
         </> )
-        }
+        }        
+       <input placeholder="Buscar productos"
+       className="border border-purple-900 rounded-md px-2"
+       value={buscar} 
+       onChange={(e) => setBuscar(e.target.value)}/>
        
-        </div>
+        </div>        
         </nav>
     );
 };

@@ -22,11 +22,14 @@ export default function LoginForm () {
 
     const handlerSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
+        const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+               
 
-        if (email === "") {
-            console.log("El email es obligatorio")
-            return;
+        if (!emailValido) {
+        alert("Ingresá un email válido");
+        return;
         }
+
         if (password === "") {
             console.log("El password es obligatorio")
             return;
@@ -75,6 +78,7 @@ console.log("DATA:", data);
         <main className="flex min-h-screen items-center justify-center">
 
         <form 
+        noValidate
         onSubmit={handlerSubmit}
         className="w-full max-w-md rounded-lg border border-purple-500/30 bg-purple-950/40 p-6 shadow-lg"
         >

@@ -62,12 +62,8 @@ export default function Cart() {
     return (
         <div>
             {cart.map((item)=> (
-                <Fragment key={item.product.id}>
-                <p>Cantidad: {item.quantity}</p>
-                <Card
-                    
-                    product={item.product}
-                    />
+                <Fragment key={item.product.id}>              
+                    <Card product={item.product} />                    
                 </Fragment>
             ))}
 
